@@ -1,52 +1,33 @@
 #include <stdarg.h>
+#include <stdlib.h>
 #include "main.h"
 
 /**
-*** _printf - prints the integers given to *****
-*** the function *********************************
-*** @characters: list to be printed ********************
-*** Return: Doesn't return anything **************
+*** _printf - prints line of text given to it *********
+*** in the right format *******************************
+*** @characters: list to be printed *******************
+*** Return: returns the number of characters printed **
 **/
 
 int _printf(const char *characters, ...)
 {
-	int i = 0, j, k = 0;
+	int charCount;
 	va_list list;
 	fs formatter[] = {
 		{"c", print_char},
 		{"s", print_string},
 		{"i", print_number},
-		{"d", print_number}};
+		{"d", print_number},
+		{"%", print_percent},
+		{NULL, NULL}};
+
+	if (characters == NULL)
+		return (-1);
+
 	va_start(list, characters);
 
-	for (i = 0; characters[i] != '\0'; i++)
-	{
-		if (characters[i] != '%')
-		{
-			_putchar(characters[i]);
-			k++;
-		}
-		else
-		{
-			if (characters[i + 1] == '%')
-			{
-				_putchar('%');
-				k++;
-			}
-			else
-			{
-				j = 0;
-				while (j < 5)
-				{
-					if (characters[i + 1] == *formatter[j].char_format)
-						formatter[j].func(list);
-					j++;
-					k++;
-				}
-			}
-			i++;
-		}
-	}
+	charCount = format_selector(characters, formatter, list);
+
 	va_end(list);
-	return (k);
+	return (charCount);
 }
