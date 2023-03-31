@@ -74,9 +74,10 @@ int print_number(va_list list)
 
 /**
 *** recursive_print - prints the integers given to *****
-*** the function *********************************
-*** @number: list to be printed ********************
-*** Return: Doesn't return anything **************
+*** the function ***************************************
+*** @number: list to be printed ************************
+*** @count: counts the number of line printed **********
+*** Return: Doesn't return anything ********************
 **/
 
 int recursive_print(int number, int count)
