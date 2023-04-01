@@ -1,99 +1,72 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdlib.h>
-
-int recursive_print(int number, int count);
-
 /**
-*** print_percent - prints percent *****
-*** @list: list to be printed ********************
-*** Return: Doesn't return anything **************
-**/
-
-int print_percent(__attribute__((unused)) va_list list)
-{
-	_putchar('%');
-	return (1);
-}
-
-/**
-*** print_char - prints the integers given to *****
-*** the function *********************************
-*** @list: list to be printed ********************
-*** Return: Doesn't return anything **************
-**/
-
+ * print_char - Prints character
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
 int print_char(va_list list)
 {
-	char a = va_arg(list, int);
-
-	_putchar(a);
+	_write_char(va_arg(list, int));
 	return (1);
 }
 
 /**
-*** print_string - prints the integers given to *****
-*** the function *********************************
-*** @list: list to be printed ********************
-*** Return: Doesn't return anything **************
-**/
-
+ * print_string - Prints a string
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
 int print_string(va_list list)
 {
-	char *string = va_arg(list, char *);
-	int j;
+	int i;
+	char *str;
 
-	j = 0;
-
-	if (string == NULL)
-	{
-		string = "(null)";
-	}
-	while (string[j] != '\0')
-	{
-		_putchar(string[j]);
-		j++;
-	}
-
-	return (j);
+	str = va_arg(list, char *);
+	if (str == NULL)
+		str = "(null)";
+	for (i = 0; str[i] != '\0'; i++)
+		_write_char(str[i]);
+	return (i);
 }
 
 /**
-*** print_number - prints the integers given to *****
-*** the function *********************************
-*** @list: list to be printed ********************
-*** Return: Doesn't return anything **************
-**/
-
-int print_number(va_list list)
+ * print_percent - Prints a percent symbol
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
+int print_percent(__attribute__((unused))va_list list)
 {
-	int number = va_arg(list, int);
-
-	return (recursive_print(number, 0));
+	_write_char('%');
+	return (1);
 }
 
 /**
-*** recursive_print - prints the integers given to *****
-*** the function ***************************************
-*** @number: list to be printed ************************
-*** @count: counts the number of line printed **********
-*** Return: Doesn't return anything ********************
-**/
-
-int recursive_print(int number, int count)
+ * print_integer - Prints an integer
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
+int print_integer(va_list list)
 {
-	if (number < 0)
-	{
-		_putchar('-');
-		number = -number;
-	}
+	int num_length;
 
-	if (number / 10)
-	{
-		recursive_print((number / 10), count++);
-	}
+	num_length = print_number(list);
+	return (num_length);
+}
 
-	_putchar((number % 10) + '0');
+/**
+ * unsigned_integer - Prints Unsigned integers
+ * @list: List of all of the argumets
+ * Return: a count of the numbers
+ */
+int unsigned_integer(va_list list)
+{
+	unsigned int num;
 
-	return (count);
+	num = va_arg(list, unsigned int);
+
+	if (num == 0)
+		return (print_unsgined_number(num));
+
+	if (num < 1)
+		return (-1);
+	return (print_unsgined_number(num));
 }
